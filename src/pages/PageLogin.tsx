@@ -3,6 +3,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "react-bootstrap/Button";
+import useAppContext from "../services/AppContext";
 
 const schema = z.object({
   username: z
@@ -20,6 +21,7 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 const PageLogin = () => {
+  const appcontext = useAppContext();
   const {
     register,
     handleSubmit,
@@ -31,6 +33,7 @@ const PageLogin = () => {
 
   const submitLogin = (data: FieldValues) => {
     console.log("FORM SUBMITTED", data);
+    appcontext.setSessionData({ user: { name_first: "User" } });
   };
 
   return (

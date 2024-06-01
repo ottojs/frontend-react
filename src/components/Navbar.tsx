@@ -1,9 +1,12 @@
-import { NavLink, Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
+import Dropdown from "react-bootstrap/Dropdown";
+import useAppContext from "../services/AppContext";
 
 const NavbarComponent = () => {
+  const appcontext = useAppContext();
   return (
     <Navbar expand="lg" className="bg-body-tertiary rounded mb-4">
       <Container fluid>
@@ -29,14 +32,31 @@ const NavbarComponent = () => {
             </NavLink>
           </Nav>
           <div className="col-lg-4 justify-content-end">
-            <div className="float-end">
-              <Link to="/login" className="btn btn-primary me-2">
-                Login
-              </Link>
-              <Link to="/register" className="btn btn-secondary">
-                Register
-              </Link>
-            </div>
+            {appcontext.sessionData ? (
+              <Dropdown>
+                <Dropdown.Toggle
+                  variant="secondary"
+                  id="dropdown-basic"
+                  className="float-end"
+                >
+                  {appcontext.sessionData?.user?.name_first}
+                </Dropdown.Toggle>
+                <Dropdown.Menu align="end" className="mt-5">
+                  <Dropdown.Item onClick={() => appcontext.logout()}>
+                    Logout
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            ) : (
+              <div className="float-end">
+                <Link to="/login" className="btn btn-primary me-2">
+                  Login
+                </Link>
+                <Link to="/register" className="btn btn-secondary">
+                  Register
+                </Link>
+              </div>
+            )}
           </div>
         </Navbar.Collapse>
       </Container>
