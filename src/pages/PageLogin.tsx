@@ -1,9 +1,14 @@
 // Modules
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "react-bootstrap/Button";
+import Alert from "react-bootstrap/Alert";
 import useAppContext from "../services/AppContext";
+import { sessionService } from "../services/apiClient";
+import { DataSessionReq } from "../types";
 
 const schema = z.object({
   username: z
@@ -21,19 +26,34 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 const PageLogin = () => {
+  const navigate = useNavigate();
   const appcontext = useAppContext();
+  const [error, setError] = useState("");
+
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors }, // isValid
   } = useForm<FormData>({
     mode: "onTouched",
     resolver: zodResolver(schema),
   });
 
   const submitLogin = (data: FieldValues) => {
-    console.log("FORM SUBMITTED", data);
-    appcontext.setSessionData({ user: { name_first: "User" } });
+    setError("");
+    const { request } = sessionService.create<DataSessionReq>({
+      username: data.username,
+      password: data.password,
+    });
+    request
+      .then((res) => {
+        appcontext.setSessionData(res.data.data);
+        navigate("/");
+      })
+      .catch(() => {
+        setError("Incorrect username or password");
+        appcontext.setSessionData(false);
+      });
   };
 
   return (
@@ -43,6 +63,14 @@ const PageLogin = () => {
         <h1 className="mt-3 mb-3 text-center">
           <i className="bi bi-key-fill"></i> Login
         </h1>
+        {error && error.length > 0 ? (
+          <Alert variant="danger">
+            <Alert.Heading>Error</Alert.Heading>
+            {error}
+          </Alert>
+        ) : (
+          ""
+        )}
         <form onSubmit={handleSubmit(submitLogin)}>
           <div className="mb-3">
             <label htmlFor="username" className="form-label">
@@ -73,8 +101,12 @@ const PageLogin = () => {
             )}
           </div>
           <div className="text-center">
-            <Button variant="primary" disabled={!isValid} type="submit">
+            {/*
+              <Button disabled={!isValid}>
               {isValid ? "Login" : "Not Valid Please Fix"}
+            */}
+            <Button variant="primary" type="submit">
+              Login
             </Button>
           </div>
         </form>

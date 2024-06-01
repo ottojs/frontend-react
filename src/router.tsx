@@ -1,5 +1,6 @@
 // Modules
-// Navigate from "react-router-dom"
+// Use this if you want to redirect somewhere on 404
+// import { Navigate } from "react-router-dom"
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import PageHome from "./pages/PageHome";

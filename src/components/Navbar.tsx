@@ -39,7 +39,9 @@ const NavbarComponent = () => {
                   id="dropdown-basic"
                   className="float-end"
                 >
-                  {appcontext.sessionData?.user?.name_first}
+                  {appcontext.sessionData?.user?.name_first
+                    ? appcontext.sessionData.user.name_first
+                    : "Logged In"}
                 </Dropdown.Toggle>
                 <Dropdown.Menu align="end" className="mt-5">
                   <Dropdown.Item onClick={() => appcontext.logout()}>
