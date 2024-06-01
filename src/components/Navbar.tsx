@@ -13,6 +13,9 @@ function NavbarComponent() {
           <NavLink to="/about" className="nav-link">
             About
           </NavLink>
+          <NavLink to="/register" className="nav-link">
+            Register
+          </NavLink>
           <NavLink to="/not-found" className="nav-link">
             404 - Not Found
           </NavLink>
