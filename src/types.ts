@@ -33,9 +33,12 @@ export type DataSession = {
 
 export type DataUser = {
   id?: string;
-  username: string;
+  username?: string;
   name_first?: string;
   name_last?: string;
+  color?: string;
+  picture?: string;
+  picture_prefix?: string;
 };
 export type DataUserReq = {
   username: string;

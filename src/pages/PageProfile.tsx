@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "react-bootstrap/Button";
 import useAppContext from "../services/AppContext";
 import { userService } from "../services/apiClient";
+import Avatar from "../components/Avatar";
 
 const schema = z.object({
   name_first: z
@@ -29,6 +30,7 @@ const PageProfile = () => {
     register,
     handleSubmit,
     formState: { errors, isValid, isDirty },
+    watch,
     reset,
   } = useForm<FormData>({
     mode: "onTouched",
@@ -63,6 +65,16 @@ const PageProfile = () => {
           <h1>
             <i className="bi bi-person-circle"></i> Profile
           </h1>
+          <h2>Avatar</h2>
+          <div className="d-flex justify-content-center mb-3">
+            <Avatar
+              name_first={watch("name_first")}
+              name_last={watch("name_last")}
+              color={watch("color")}
+            />
+          </div>
+          <hr />
+          <h2>Information</h2>
           <form onSubmit={handleSubmit(submitProfile)}>
             <div className="mb-3">
               <label htmlFor="name_first" className="form-label">

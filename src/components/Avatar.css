@@ -1,0 +1,27 @@
+.maincenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  flex-direction: column;
+}
+.avatar-image {
+  max-width: 150px;
+  /*max-width: fit-content;*/
+}
+.avatar-image img {
+  width: 100px;
+  height: 100px;
+}
+.avatar-intials {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  padding: 20px;
+  color: #ffffff;
+  font-size: 30px;
+  border-radius: 50%;
+  font-weight: 800;
+}
