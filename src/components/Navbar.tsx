@@ -44,6 +44,12 @@ const NavbarComponent = () => {
                     : "Logged In"}
                 </Dropdown.Toggle>
                 <Dropdown.Menu align="end" className="mt-5">
+                  <Dropdown.Item>
+                    <Link to="/profile" className="nav-link">
+                      Profile
+                    </Link>
+                  </Dropdown.Item>
+                  <Dropdown.Divider />
                   <Dropdown.Item onClick={() => appcontext.logout()}>
                     Logout
                   </Dropdown.Item>

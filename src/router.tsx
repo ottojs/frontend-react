@@ -7,6 +7,7 @@ import PageHome from "./pages/PageHome";
 import PageAbout from "./pages/PageAbout";
 import PageRegister from "./pages/PageRegister";
 import PageLogin from "./pages/PageLogin";
+import PageProfile from "./pages/PageProfile";
 import PageError from "./pages/PageError";
 import Page404 from "./pages/Page404";
 
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <PageLogin />,
+      },
+      {
+        path: "/profile",
+        element: <PageProfile />,
       },
       {
         path: "*",
