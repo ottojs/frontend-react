@@ -51,6 +51,18 @@ class HttpService {
     return { request, cancel: () => controller.abort() };
   }
 
+  patch<T extends ApiRequest>(entity: T) {
+    const controller = new AbortController();
+    const request = apiClient.patch(this.endpoint + "/" + entity.id, entity, {
+      signal: controller.signal,
+      baseURL: this.baseURL,
+      headers: {
+        Accept: "application/json",
+      },
+    });
+    return { request, cancel: () => controller.abort() };
+  }
+
   delete<T extends ApiRequest>(entity: T) {
     const controller = new AbortController();
     const request = apiClient.delete(this.endpoint + "/" + entity.id, {
