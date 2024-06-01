@@ -8,8 +8,21 @@ import useAppContext from "../services/AppContext";
 const NavbarComponent = () => {
   const appcontext = useAppContext();
   return (
-    <Navbar expand="lg" className="bg-body-tertiary rounded mb-4">
-      <Container fluid>
+    // Styles
+    //
+    // Full-Width
+    // Navbar Classes: mb-4
+    // Container: fluid attribute
+    // Container Classes:
+    //
+    // Middle Center
+    // Navbar Classes: mb-4
+    // Container: remove fluid attribute
+    // Container Classes: bg-body-tertiary p-3 rounded
+    //
+    // You can also add "rounded" class
+    <Navbar expand="lg" className="bg-body-tertiary mb-4">
+      <Container>
         <Navbar.Brand className="col-lg-3 me-0">
           <NavLink to="/" className="nav-link">
             Example
