@@ -43,6 +43,13 @@ const NavbarComponent = () => {
             <NavLink to="/not-found" className="nav-link">
               404 Not Found
             </NavLink>
+            {appcontext.sessionData && (
+              <>
+                <NavLink to="/tasks" className="nav-link">
+                  Tasks
+                </NavLink>
+              </>
+            )}
           </Nav>
           <div className="col-lg-4 justify-content-end">
             {appcontext.sessionData ? (

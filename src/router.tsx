@@ -10,6 +10,7 @@ import PageRegister from "./pages/PageRegister";
 import PageLogin from "./pages/PageLogin";
 import PageProfile from "./pages/PageProfile";
 import PageAccount from "./pages/PageAccount";
+import PageTasks from "./pages/PageTasks";
 import PageError from "./pages/PageError";
 import Page404 from "./pages/Page404";
 
@@ -48,6 +49,14 @@ const router = createBrowserRouter([
         element: (
           <LoginRequired>
             <PageAccount />
+          </LoginRequired>
+        ),
+      },
+      {
+        path: "/tasks",
+        element: (
+          <LoginRequired>
+            <PageTasks />
           </LoginRequired>
         ),
       },
