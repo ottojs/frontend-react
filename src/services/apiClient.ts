@@ -86,6 +86,7 @@ function create(
 // Services
 const userService = create("/v0/users");
 const sessionService = create("/v0/sessions");
+const accountService = create("/v0/accounts");
 
 // Exports
-export { CanceledError, userService, sessionService };
+export { CanceledError, userService, sessionService, accountService };

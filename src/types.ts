@@ -14,7 +14,7 @@ export interface ApiResponse {
 export type CurrentSession = {
   session: DataSession;
   user: DataUser;
-  account: DataAccount;
+  accounts: DataAccount[];
 };
 
 export type DataSessionReq = {
