@@ -3,6 +3,7 @@
 // import { Navigate } from "react-router-dom"
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
+import LoginRequired from "./services/LoginRequired";
 import PageHome from "./pages/PageHome";
 import PageAbout from "./pages/PageAbout";
 import PageRegister from "./pages/PageRegister";
@@ -36,11 +37,19 @@ const router = createBrowserRouter([
       },
       {
         path: "/profile",
-        element: <PageProfile />,
+        element: (
+          <LoginRequired>
+            <PageProfile />
+          </LoginRequired>
+        ),
       },
       {
         path: "/account",
-        element: <PageAccount />,
+        element: (
+          <LoginRequired>
+            <PageAccount />
+          </LoginRequired>
+        ),
       },
       {
         path: "*",
