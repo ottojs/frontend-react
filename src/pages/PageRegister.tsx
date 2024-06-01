@@ -1,9 +1,12 @@
 // Modules
+import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
+import { userService } from "../services/apiClient";
+import { DataUserReq } from "../types";
 
 // Form Schema with zod
 const schema = z.object({
@@ -27,16 +30,33 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 const PageRegister = () => {
+  const [error, setError] = useState("");
+  const [registerSuccess, setRegisterSuccess] = useState<boolean>(false);
+
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors }, // isValid
+    reset,
   } = useForm<FormData>({
     mode: "onTouched",
     resolver: zodResolver(schema),
   });
   const submitRegister = (data: FieldValues) => {
-    console.log("FORM SUBMITTED", data);
+    setError("");
+    const { request } = userService.create<DataUserReq>({
+      username: data.username,
+      password: data.password,
+      code: data.code,
+    });
+    request
+      .then(() => {
+        setRegisterSuccess(true);
+        reset();
+      })
+      .catch(() => {
+        setError("Invalid email, password, or code");
+      });
   };
 
   return (
@@ -45,6 +65,22 @@ const PageRegister = () => {
         <h1 className="mt-3 mb-3 text-center">
           <i className="bi bi-person-plus-fill"></i> Register
         </h1>
+        {error && error.length > 0 ? (
+          <Alert variant="danger">
+            <Alert.Heading>Error</Alert.Heading>
+            {error}
+          </Alert>
+        ) : (
+          ""
+        )}
+        {registerSuccess ? (
+          <Alert variant="success">
+            <Alert.Heading>All Good!</Alert.Heading>
+            You are successfully registered. Head on over to the Login page.
+          </Alert>
+        ) : (
+          ""
+        )}
         <form onSubmit={handleSubmit(submitRegister)}>
           <div className="mb-3">
             <label htmlFor="username" className="form-label">
@@ -89,8 +125,12 @@ const PageRegister = () => {
             )}
           </div>
           <div className="text-center">
-            <Button variant="primary" disabled={!isValid} type="submit">
+            {/*
+              <Button disabled={!isValid}>
               {isValid ? "Register" : "Not Valid Please Fix"}
+            */}
+            <Button variant="primary" type="submit">
+              Register
             </Button>
           </div>
         </form>

@@ -32,10 +32,15 @@ export type DataSession = {
 };
 
 export type DataUser = {
-  id: string;
+  id?: string;
   username: string;
-  name_first: string;
-  name_last: string;
+  name_first?: string;
+  name_last?: string;
+};
+export type DataUserReq = {
+  username: string;
+  password: string;
+  code: string;
 };
 
 export type DataAccount = {
