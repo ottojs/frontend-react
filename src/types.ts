@@ -37,7 +37,7 @@ export type DataUser = {
   name_first?: string;
   name_last?: string;
   color?: string;
-  picture?: string;
+  picture: string | null;
   picture_prefix?: string;
 };
 export type DataUserReq = {

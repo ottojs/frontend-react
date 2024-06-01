@@ -56,14 +56,14 @@ export function AppContextProvider({ children }: Props) {
   const [refreshSession, setRefreshSession] = useState<boolean>(true);
 
   // Load Session
-  // TODO: Runs Twice. Possible Cause is React Strict Mode
+  // TODO: Runs Twice. Possible reason is React Strict Mode
   useEffect(() => {
     if (!refreshSession) {
       return;
     }
     setRefreshSession(false);
     console.log("SESSION REFRESH");
-    // TODO: Cancel
+    // TODO: Add cancel function
     const { request } = sessionService.read<ApiRequest>({
       id: "me",
     });
@@ -75,11 +75,11 @@ export function AppContextProvider({ children }: Props) {
       .catch(() => {
         setSessionData(false);
       });
+    // TODO: This cancels both times... why? Does this unmount?
+    //return cancel;
   }, [refreshSession]);
 
   const logout = () => {
-    // TODO: Cancel
-    // TODO: Show error
     const { request } = sessionService.delete({
       // TODO: Use full id?
       //id: sessionData?.session.id,

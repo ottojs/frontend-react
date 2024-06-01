@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "react-bootstrap/Button";
 import useAppContext from "../services/AppContext";
 import { userService } from "../services/apiClient";
-import Avatar from "../components/Avatar";
+import AvatarEditor from "../components/AvatarEditor";
 
 const schema = z.object({
   name_first: z
@@ -20,6 +20,7 @@ const schema = z.object({
     .min(1, { message: "last name cannot be blank" })
     .max(40, { message: "last name must be fewer than 40 characters" }),
   color: z.string().min(1).max(7),
+  picture: z.string().min(4).max(80).or(z.literal(null)),
 });
 type FormData = z.infer<typeof schema>;
 
@@ -32,10 +33,32 @@ const PageProfile = () => {
     formState: { errors, isValid, isDirty },
     watch,
     reset,
+    setValue,
   } = useForm<FormData>({
     mode: "onTouched",
     resolver: zodResolver(schema),
   });
+
+  const onImage = (url: string | null) => {
+    setValue("picture", url, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true,
+    });
+  };
+
+  useEffect(() => {
+    if (appcontext.sessionData) {
+      reset(appcontext.sessionData.user);
+    }
+  }, [appcontext.sessionData, reset]);
+  useEffect(() => {
+    if (appcontext.sessionData) {
+      console.log("RESET");
+      reset(appcontext.sessionData.user);
+    }
+  }, [appcontext.sessionData, reset]);
+
   const submitProfile = (data: FieldValues) => {
     const { request } = userService.patch({ ...data, id: "me" });
     request
@@ -52,11 +75,6 @@ const PageProfile = () => {
     if (!isValid) return "Not Valid Yet";
     return "Save Profile";
   };
-  useEffect(() => {
-    if (appcontext.sessionData) {
-      reset(appcontext.sessionData.user);
-    }
-  }, [appcontext.sessionData, reset]);
 
   return (
     <div className="container">
@@ -66,13 +84,8 @@ const PageProfile = () => {
             <i className="bi bi-person-circle"></i> Profile
           </h1>
           <h2>Avatar</h2>
-          <div className="d-flex justify-content-center mb-3">
-            <Avatar
-              name_first={watch("name_first")}
-              name_last={watch("name_last")}
-              color={watch("color")}
-            />
-          </div>
+
+          <AvatarEditor user={watch()} onImage={onImage} />
           <hr />
           <h2>Information</h2>
           <form onSubmit={handleSubmit(submitProfile)}>
@@ -105,6 +118,7 @@ const PageProfile = () => {
                 <p className="text-danger">{errors.name_last.message}</p>
               )}
               <input {...register("color")} id="color" type="hidden" />
+              <input {...register("picture")} id="picture" type="hidden" />
             </div>
             <div className="text-center">
               <Button
