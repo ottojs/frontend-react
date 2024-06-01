@@ -6,10 +6,14 @@ import {
   useEffect,
   useState,
 } from "react";
+import { useMediaQuery } from "react-responsive";
 import { sessionService } from "./apiClient";
 import { ApiRequest, CurrentSession } from "../types";
 
 interface InterfaceAppContext {
+  // light, dark
+  theme: string;
+  setTheme: (theme: string) => void;
   logout: () => void;
   sessionData: CurrentSession | false | null;
   setSessionData: (arg: CurrentSession | false | null) => void;
@@ -17,6 +21,8 @@ interface InterfaceAppContext {
 }
 
 export const AppContext = createContext<InterfaceAppContext>({
+  theme: "light",
+  setTheme: () => {},
   logout: () => {},
   sessionData: null,
   setSessionData: () => {},
@@ -27,6 +33,18 @@ interface Props {
   children: ReactNode;
 }
 export function AppContextProvider({ children }: Props) {
+  // Theme Light/Dark
+  const isThemeDark = useMediaQuery({
+    query: "(prefers-color-scheme: dark)",
+  });
+  const [theme, setTheme] = useState(isThemeDark ? "dark" : "light");
+  // TODO: Should we use a Ref? I guess not since
+  //       React does not create <html> element
+  const htmlElement = document.querySelector("html");
+  useEffect(() => {
+    htmlElement?.setAttribute("data-bs-theme", theme);
+  }, [theme, htmlElement]);
+
   // Auth
   const [sessionData, setSessionData] = useState<CurrentSession | false | null>(
     null,
@@ -71,6 +89,8 @@ export function AppContextProvider({ children }: Props) {
   return (
     <AppContext.Provider
       value={{
+        theme,
+        setTheme,
         logout,
         setSessionData,
         sessionData,
