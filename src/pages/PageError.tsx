@@ -10,10 +10,16 @@ const PageError = () => {
   // reserve this page for unexpected errors.
   // if (error.status == 404) {}
   return (
-    <>
-      <h1>Something went wrong...</h1>
-      <p>{isRouteErrorResponse(error) ? "Invalid page" : "Unexpected error"}</p>
-    </>
+    <div className="container">
+      <div className="row">
+        <div className="col col-lg-4 offset-lg-4 text-center">
+          <h1>Something went wrong...</h1>
+          <p>
+            {isRouteErrorResponse(error) ? "Invalid page" : "Unexpected error"}
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -58,58 +58,60 @@ const PageLogin = () => {
 
   return (
     //onSubmit={outside}
-    <div className="row">
-      <div className="col col-12 col-lg-4 offset-lg-4">
-        <h1 className="mt-3 mb-3 text-center">
-          <i className="bi bi-key-fill"></i> Login
-        </h1>
-        {error && error.length > 0 ? (
-          <Alert variant="danger">
-            <Alert.Heading>Error</Alert.Heading>
-            {error}
-          </Alert>
-        ) : (
-          ""
-        )}
-        <form onSubmit={handleSubmit(submitLogin)}>
-          <div className="mb-3">
-            <label htmlFor="username" className="form-label">
-              Email
-            </label>
-            <input
-              {...register("username")}
-              id="username"
-              type="email"
-              className="form-control"
-            />
-            {errors.username && (
-              <p className="text-danger">{errors.username.message}</p>
-            )}
-          </div>
-          <div className="mb-3">
-            <label htmlFor="password" className="form-label">
-              Password
-            </label>
-            <input
-              {...register("password")}
-              id="password"
-              type="password"
-              className="form-control"
-            />
-            {errors.password && (
-              <p className="text-danger">{errors.password.message}</p>
-            )}
-          </div>
-          <div className="text-center">
-            {/*
+    <div className="container">
+      <div className="row">
+        <div className="col col-lg-4 offset-lg-4 text-center">
+          <h1 className="mt-3 mb-3">
+            <i className="bi bi-key-fill"></i> Login
+          </h1>
+          {error && error.length > 0 ? (
+            <Alert variant="danger">
+              <Alert.Heading>Error</Alert.Heading>
+              {error}
+            </Alert>
+          ) : (
+            ""
+          )}
+          <form onSubmit={handleSubmit(submitLogin)}>
+            <div className="mb-3">
+              <label htmlFor="username" className="form-label">
+                Email
+              </label>
+              <input
+                {...register("username")}
+                id="username"
+                type="email"
+                className="form-control"
+              />
+              {errors.username && (
+                <p className="text-danger">{errors.username.message}</p>
+              )}
+            </div>
+            <div className="mb-3">
+              <label htmlFor="password" className="form-label">
+                Password
+              </label>
+              <input
+                {...register("password")}
+                id="password"
+                type="password"
+                className="form-control"
+              />
+              {errors.password && (
+                <p className="text-danger">{errors.password.message}</p>
+              )}
+            </div>
+            <div>
+              {/*
               <Button disabled={!isValid}>
               {isValid ? "Login" : "Not Valid Please Fix"}
             */}
-            <Button variant="primary" type="submit">
-              Login
-            </Button>
-          </div>
-        </form>
+              <Button variant="primary" type="submit">
+                Login
+              </Button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
