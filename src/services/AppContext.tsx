@@ -7,6 +7,8 @@ import {
   useState,
 } from "react";
 import { useMediaQuery } from "react-responsive";
+import { Navigate, useLocation } from "react-router-dom";
+import { getDestination } from "../lib/functions";
 import { sessionService } from "./apiClient";
 import { ApiRequest, CurrentSession } from "../types";
 
@@ -33,6 +35,8 @@ interface Props {
   children: ReactNode;
 }
 export function AppContextProvider({ children }: Props) {
+  const location = useLocation();
+
   // Theme Light/Dark
   const isThemeDark = useMediaQuery({
     query: "(prefers-color-scheme: dark)",
@@ -89,6 +93,18 @@ export function AppContextProvider({ children }: Props) {
   // Loading
   if (sessionData === null) {
     return <h1 className="text-center">Loading...</h1>;
+  }
+
+  // Profile Gate if logged in
+  if (sessionData && sessionData.user) {
+    if (
+      sessionData.user.name_first === "" ||
+      sessionData.user.name_last === ""
+    ) {
+      if (location.pathname != "/profile") {
+        return <Navigate to={getDestination("/profile", location)} />;
+      }
+    }
   }
 
   return (
