@@ -49,6 +49,11 @@ const NavbarComponent = () => {
                       Profile
                     </Link>
                   </Dropdown.Item>
+                  <Dropdown.Item>
+                    <Link to="/account" className="nav-link">
+                      Account
+                    </Link>
+                  </Dropdown.Item>
                   <Dropdown.Divider />
                   <Dropdown.Item onClick={() => appcontext.logout()}>
                     Logout
