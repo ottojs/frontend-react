@@ -64,13 +64,11 @@ const PageLogin = () => {
           <h1 className="mt-3 mb-3">
             <i className="bi bi-key-fill"></i> Login
           </h1>
-          {error && error.length > 0 ? (
+          {error && error.length > 0 && (
             <Alert variant="danger">
               <Alert.Heading>Error</Alert.Heading>
               {error}
             </Alert>
-          ) : (
-            ""
           )}
           <form onSubmit={handleSubmit(submitLogin)}>
             <div className="mb-3">

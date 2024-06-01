@@ -66,21 +66,17 @@ const PageRegister = () => {
           <h1 className="mt-3 mb-3">
             <i className="bi bi-person-plus-fill"></i> Register
           </h1>
-          {error && error.length > 0 ? (
+          {error && error.length > 0 && (
             <Alert variant="danger">
               <Alert.Heading>Error</Alert.Heading>
               {error}
             </Alert>
-          ) : (
-            ""
           )}
-          {registerSuccess ? (
+          {registerSuccess && (
             <Alert variant="success">
               <Alert.Heading>All Good!</Alert.Heading>
               You are successfully registered. Head on over to the Login page.
             </Alert>
-          ) : (
-            ""
           )}
           <form onSubmit={handleSubmit(submitRegister)}>
             <div className="mb-3">

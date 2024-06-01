@@ -70,7 +70,7 @@ const PageProfile = () => {
         console.log("ERROR", e);
       });
   };
-  const formSubmit = (): string => {
+  const formSubmitButton = (): string => {
     if (!isDirty) return "No Changes";
     if (!isValid) return "Not Valid Yet";
     return "Save Profile";
@@ -126,7 +126,7 @@ const PageProfile = () => {
                 disabled={!isValid || !isDirty}
                 type="submit"
               >
-                {formSubmit()}
+                {formSubmitButton()}
               </Button>
             </div>
           </form>
