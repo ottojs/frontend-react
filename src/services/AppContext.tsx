@@ -86,6 +86,11 @@ export function AppContextProvider({ children }: Props) {
     });
   };
 
+  // Loading
+  if (sessionData === null) {
+    return <h1 className="text-center">Loading...</h1>;
+  }
+
   return (
     <AppContext.Provider
       value={{
