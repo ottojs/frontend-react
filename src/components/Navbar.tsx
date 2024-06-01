@@ -13,6 +13,9 @@ function NavbarComponent() {
           <NavLink to="/about" className="nav-link">
             About
           </NavLink>
+          <NavLink to="/login" className="nav-link">
+            Login
+          </NavLink>
           <NavLink to="/register" className="nav-link">
             Register
           </NavLink>
