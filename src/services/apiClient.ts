@@ -39,6 +39,18 @@ class HttpService {
     return { request, cancel: () => controller.abort() };
   }
 
+  list<T>() {
+    const controller = new AbortController();
+    const request = apiClient.get<T>(this.endpoint, {
+      signal: controller.signal,
+      baseURL: this.baseURL,
+      headers: {
+        Accept: "application/json",
+      },
+    });
+    return { request, cancel: () => controller.abort() };
+  }
+
   read<T extends ApiRequest>(entity: T) {
     const controller = new AbortController();
     const request = apiClient.get(this.endpoint + "/" + entity.id, {
@@ -87,6 +99,13 @@ function create(
 const userService = create("/v0/users");
 const sessionService = create("/v0/sessions");
 const accountService = create("/v0/accounts");
+const taskService = create("/v0/tasks");
 
 // Exports
-export { CanceledError, userService, sessionService, accountService };
+export {
+  CanceledError,
+  userService,
+  sessionService,
+  accountService,
+  taskService,
+};

@@ -6,8 +6,13 @@ export interface ApiResponse {
   status: string;
   data: {
     session?: DataSession;
+    sessions?: DataSession[];
+    task?: DataTask;
+    tasks?: DataTask[];
     user?: DataUser;
+    users?: DataUser[];
     account?: DataAccount;
+    accounts?: DataAccount[];
   };
 }
 
@@ -49,4 +54,14 @@ export type DataUserReq = {
 export type DataAccount = {
   id: string;
   name: string;
+};
+
+export type DataTask = {
+  id?: string;
+  title: string;
+  description: string;
+  order: number;
+  completed: boolean;
+  created_at: Date;
+  updated_at: Date;
 };
