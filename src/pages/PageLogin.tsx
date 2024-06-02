@@ -1,6 +1,6 @@
 // Modules
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,9 +26,24 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 const PageLogin = () => {
-  const navigate = useNavigate();
   const appcontext = useAppContext();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [error, setError] = useState("");
+
+  // Redirect on Login, if "next" is specified
+  const readNextDestination = () => {
+    let destination = "/";
+    const paramNext = searchParams.get("next");
+    const paramQuery = searchParams.get("query");
+    if (paramNext && paramNext !== "") {
+      destination = decodeURIComponent(paramNext);
+    }
+    if (paramQuery && paramQuery !== "") {
+      destination += "?" + decodeURIComponent(paramQuery);
+    }
+    return destination;
+  };
 
   const {
     register,
@@ -48,7 +63,7 @@ const PageLogin = () => {
     request
       .then((res) => {
         appcontext.setSessionData(res.data.data);
-        navigate("/");
+        navigate(readNextDestination());
       })
       .catch(() => {
         setError("Incorrect username or password");
