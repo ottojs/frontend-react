@@ -11,6 +11,7 @@ import PageLogin from "./pages/PageLogin";
 import PageProfile from "./pages/PageProfile";
 import PageAccount from "./pages/PageAccount";
 import PageTasks from "./pages/PageTasks";
+import PageRecorder from "./pages/PageRecorder";
 import PageError from "./pages/PageError";
 import Page404 from "./pages/Page404";
 
@@ -57,6 +58,14 @@ const router = createBrowserRouter([
         element: (
           <LoginRequired>
             <PageTasks />
+          </LoginRequired>
+        ),
+      },
+      {
+        path: "/recorder",
+        element: (
+          <LoginRequired>
+            <PageRecorder />
           </LoginRequired>
         ),
       },

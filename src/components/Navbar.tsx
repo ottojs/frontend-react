@@ -48,6 +48,9 @@ const NavbarComponent = () => {
                 <NavLink to="/tasks" className="nav-link">
                   Tasks
                 </NavLink>
+                <NavLink to="/recorder" className="nav-link">
+                  Recorder
+                </NavLink>
               </>
             )}
           </Nav>
