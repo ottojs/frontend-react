@@ -24,6 +24,12 @@ export default defineConfig({
   ],
   server: {
     port: 3000,
+    headers: {
+      "X-Content-Type-Options": "nosniff",
+      "X-Frame-Options": "DENY",
+      "Content-Security-Policy":
+        "default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' https: data:; connect-src 'self' http://localhost:8080; font-src 'self'; object-src 'none'; media-src 'none'; frame-src 'none'; report-uri http://localhost:8080/csp-report; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; manifest-src 'self'; script-src-attr 'none'; upgrade-insecure-requests",
+    },
   },
   publicDir: "static",
   build: {
