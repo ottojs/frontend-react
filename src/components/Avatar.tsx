@@ -10,8 +10,16 @@ const ComponentAvatar = ({
   picture_prefix,
 }: DataUser) => {
   // Grab Initials
-  const firstNameInitial = name_first ? name_first[0] : "";
-  const lastNameInitial = name_last ? name_last[0] : "";
+  let initials = "?";
+  if (name_first || name_last) {
+    initials = "";
+    if (name_first) {
+      initials += name_first[0].toUpperCase();
+    }
+    if (name_last) {
+      initials += name_last[0].toUpperCase();
+    }
+  }
 
   return (
     <div className="d-flex justify-content-center mb-3">
@@ -31,10 +39,7 @@ const ComponentAvatar = ({
               backgroundColor: color || "#333333",
             }}
           >
-            <span>
-              {firstNameInitial}
-              {lastNameInitial}
-            </span>
+            <span>{initials}</span>
           </div>
         )}
       </div>
