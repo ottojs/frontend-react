@@ -20,7 +20,9 @@ const schema = z.object({
     .min(1, { message: "last name cannot be blank" })
     .max(40, { message: "last name must be fewer than 40 characters" }),
   color: z.string().min(1).max(7),
-  picture: z.string().min(4).max(80).or(z.literal(null)),
+  picture: z
+    .union([z.string().trim().min(4).max(80), z.literal(null)])
+    .default(null),
 });
 type FormData = z.infer<typeof schema>;
 
@@ -34,12 +36,19 @@ const PageProfile = () => {
     watch,
     reset,
     setValue,
+    //getValues,
   } = useForm<FormData>({
     mode: "onTouched",
     resolver: zodResolver(schema),
+    // defaultValues: {
+    //   picture: null,
+    // },
   });
 
   const onImage = (url: string | null) => {
+    if (url === "") {
+      url = null;
+    }
     setValue("picture", url, {
       shouldValidate: true,
       shouldDirty: true,
@@ -49,12 +58,7 @@ const PageProfile = () => {
 
   useEffect(() => {
     if (appcontext.sessionData) {
-      reset(appcontext.sessionData.user);
-    }
-  }, [appcontext.sessionData, reset]);
-  useEffect(() => {
-    if (appcontext.sessionData) {
-      console.log("RESET");
+      console.log("RESET FORM WITH SESSION DATA");
       reset(appcontext.sessionData.user);
     }
   }, [appcontext.sessionData, reset]);
@@ -84,6 +88,13 @@ const PageProfile = () => {
             <i className="bi bi-person-circle"></i> Profile
           </h1>
           <h2>Avatar</h2>
+          {/* <Button
+            onClick={() => {
+              console.log(getValues());
+            }}
+          >
+            VAL
+          </Button> */}
 
           <AvatarEditor user={watch()} onImage={onImage} />
           <hr />
@@ -118,7 +129,13 @@ const PageProfile = () => {
                 <p className="text-danger">{errors.name_last.message}</p>
               )}
               <input {...register("color")} id="color" type="hidden" />
-              <input {...register("picture")} id="picture" type="hidden" />
+              <input
+                {...register("picture", {
+                  setValueAs: (v) => (v === "" ? null : v),
+                })}
+                id="picture"
+                type="hidden"
+              />
             </div>
             <div className="text-center">
               <Button

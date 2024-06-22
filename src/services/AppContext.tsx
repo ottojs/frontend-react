@@ -70,6 +70,9 @@ export function AppContextProvider({ children }: Props) {
     request
       .then((res) => {
         console.log("SESSION OK");
+        if (res.data.data.picture === "") {
+          res.data.data.picture = null;
+        }
         setSessionData(res.data.data);
       })
       .catch(() => {
