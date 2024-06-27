@@ -8,6 +8,7 @@
     "start": "vite",
     "dev": "vite",
     "build": "tsc && vite build",
+    "deploy": "npm run build && npm run html-min",
     "html-min": "html-minifier --input-dir public --output-dir public --file-ext html --remove-comments --collapse-whitespace",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
