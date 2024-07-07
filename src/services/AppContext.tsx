@@ -95,7 +95,7 @@ export function AppContextProvider({ children }: Props) {
 
   // Loading
   if (sessionData === null) {
-    return <h1 className="text-center">Loading...</h1>;
+    return <h1 className="mt-5 text-center">Loading...</h1>;
   }
 
   // Profile Gate if logged in
