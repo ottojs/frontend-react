@@ -95,6 +95,14 @@ function create(
   return new HttpService(endpoint, baseURL);
 }
 
+const vanilla = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+  timeout: 5000,
+  headers: {
+    Accept: "application/json",
+  },
+});
+
 // Services
 const userService = create("/v0/users");
 const sessionService = create("/v0/sessions");
@@ -103,6 +111,7 @@ const taskService = create("/v0/tasks");
 
 // Exports
 export {
+  vanilla,
   CanceledError,
   userService,
   sessionService,
