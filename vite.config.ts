@@ -25,7 +25,7 @@ export default defineConfig({
   //base: "https://127.0.0.1:3000/",
   server: {
     // host: true,
-    port: 3000,
+    port: 3111,
     // strictPort: true,
     // https: false,
     // open: false,
