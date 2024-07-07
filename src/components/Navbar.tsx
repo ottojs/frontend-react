@@ -40,6 +40,9 @@ const NavbarComponent = () => {
             <NavLink to="/about" className="nav-link">
               About
             </NavLink>
+            <NavLink to="/checkout" className="nav-link">
+              One-Time Checkout
+            </NavLink>
             <NavLink to="/not-found" className="nav-link">
               404 Not Found
             </NavLink>

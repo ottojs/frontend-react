@@ -12,6 +12,7 @@ import PageProfile from "./pages/PageProfile";
 import PageAccount from "./pages/PageAccount";
 import PageTasks from "./pages/PageTasks";
 import PageRecorder from "./pages/PageRecorder";
+import PageCheckout from "./pages/PageCheckout";
 import PageError from "./pages/PageError";
 import Page404 from "./pages/Page404";
 
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
             <PageRecorder />
           </LoginRequired>
         ),
+      },
+      {
+        path: "/checkout",
+        element: <PageCheckout />,
       },
       {
         path: "*",
