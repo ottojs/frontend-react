@@ -38,6 +38,9 @@ const PageCheckout = () => {
   const success = searchParams.get("success") === "1";
   const cancel = searchParams.get("cancel") === "1";
 
+  const [oneTimeLoading, setOneTimeLoading] = useState(false);
+  const [subscriptionLoading, setSubscriptionLoading] = useState(false);
+
   return (
     <>
       {success && (
@@ -69,37 +72,51 @@ const PageCheckout = () => {
             )}
             <Button
               variant="primary"
+              disabled={oneTimeLoading}
               onClick={() => {
+                setOneTimeLoading(true);
                 const request = vanilla.post("/v0/payments", {
+                  session_id: appcontext.analytics,
                   type: "one-time",
                   path_success: "/checkout?success=1",
                   path_cancel: "/checkout?cancel=1",
                   //email: "user@example.com",
                 });
-                request.then((res) => {
-                  // Redirect
-                  window.location.href = res.data.data.url;
-                });
+                request
+                  .then((res) => {
+                    // Redirect
+                    window.location.href = res.data.data.url;
+                  })
+                  .catch(() => {
+                    setOneTimeLoading(false);
+                  });
               }}
             >
-              One-Time Purchase
+              {oneTimeLoading ? "Loading..." : "One-Time Purchase"}
             </Button>{" "}
             <Button
               variant="secondary"
+              disabled={subscriptionLoading}
               onClick={() => {
+                setSubscriptionLoading(true);
                 const request = vanilla.post("/v0/payments", {
+                  session_id: appcontext.analytics,
                   type: "subscription",
                   path_success: "/checkout?success=1",
                   path_cancel: "/checkout?cancel=1",
-                  //email: "user@example.com",
+                  email: "user@example.com",
                 });
-                request.then((res) => {
-                  // Redirect
-                  window.location.href = res.data.data.url;
-                });
+                request
+                  .then((res) => {
+                    // Redirect
+                    window.location.href = res.data.data.url;
+                  })
+                  .catch(() => {
+                    setSubscriptionLoading(false);
+                  });
               }}
             >
-              Subscription Purchase
+              {subscriptionLoading ? "Loading..." : "Subscription Purchase"}
             </Button>
           </div>
         </div>
