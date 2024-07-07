@@ -4,6 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Confetti from "react-confetti";
+import { vanilla } from "../services/apiClient";
 
 const PageCheckout = () => {
   const [searchParams] = useSearchParams();
@@ -53,12 +54,36 @@ const PageCheckout = () => {
             <Button
               variant="primary"
               onClick={() => {
-                window.location.href =
-                  import.meta.env.VITE_API_URL +
-                  "/v0/payments/checkout/onetime";
+                const request = vanilla.post("/v0/payments", {
+                  type: "one-time",
+                  path_success: "/checkout?success=1",
+                  path_cancel: "/checkout?cancel=1",
+                  //email: "user@example.com",
+                });
+                request.then((res) => {
+                  // Redirect
+                  window.location.href = res.data.data.url;
+                });
               }}
             >
-              Go to Checkout
+              One-Time Purchase
+            </Button>{" "}
+            <Button
+              variant="secondary"
+              onClick={() => {
+                const request = vanilla.post("/v0/payments", {
+                  type: "subscription",
+                  path_success: "/checkout?success=1",
+                  path_cancel: "/checkout?cancel=1",
+                  //email: "user@example.com",
+                });
+                request.then((res) => {
+                  // Redirect
+                  window.location.href = res.data.data.url;
+                });
+              }}
+            >
+              Subscription Purchase
             </Button>
           </div>
         </div>
