@@ -9,7 +9,7 @@ import {
 import { useMediaQuery } from "react-responsive";
 import { Navigate, useLocation } from "react-router-dom";
 import { getDestination } from "../lib/functions";
-import { sessionService } from "./apiClient";
+import { sessionService, vanilla } from "./apiClient";
 import { ApiRequest, CurrentSession } from "../types";
 
 interface InterfaceAppContext {
@@ -20,6 +20,7 @@ interface InterfaceAppContext {
   sessionData: CurrentSession | false | null;
   setSessionData: (arg: CurrentSession | false | null) => void;
   setRefreshSession: (arg: boolean) => void;
+  analytics: string | null;
 }
 
 export const AppContext = createContext<InterfaceAppContext>({
@@ -29,6 +30,7 @@ export const AppContext = createContext<InterfaceAppContext>({
   sessionData: null,
   setSessionData: () => {},
   setRefreshSession: () => {},
+  analytics: null,
 });
 
 interface Props {
@@ -93,8 +95,24 @@ export function AppContextProvider({ children }: Props) {
     });
   };
 
+  // Analytics Session
+  const [analytics, setAnalytics] = useState<string | null>(null);
+  useEffect(() => {
+    const analyticsKey = "analytics_session_id";
+    const analyticsExists = localStorage.getItem(analyticsKey);
+    console.log("ANALYTICS EXISTS", analyticsExists);
+    if (analyticsExists) {
+      setAnalytics(analyticsExists);
+    } else {
+      vanilla.post("/v0/analytics/sessions").then((res) => {
+        setAnalytics(res.data.data.session.id);
+        localStorage.setItem(analyticsKey, res.data.data.session.id);
+      });
+    }
+  }, []);
+
   // Loading
-  if (sessionData === null) {
+  if (sessionData === null || analytics === null) {
     return <h1 className="mt-5 text-center">Loading...</h1>;
   }
 
@@ -119,6 +137,7 @@ export function AppContextProvider({ children }: Props) {
         setSessionData,
         sessionData,
         setRefreshSession,
+        analytics,
       }}
     >
       {children}

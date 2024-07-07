@@ -5,18 +5,34 @@ import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Confetti from "react-confetti";
 import { vanilla } from "../services/apiClient";
+import useAppContext from "../services/AppContext";
 
 const PageCheckout = () => {
   const [searchParams] = useSearchParams();
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
+  const appcontext = useAppContext();
 
   useEffect(() => {
     setTimeout(() => {
       setWidth(window.innerWidth);
       setHeight(window.innerHeight);
     }, 100);
-  });
+  }, []);
+
+  // Mark as Page Viewed
+  useEffect(() => {
+    console.log("CONTEXT ANALYTICS", appcontext.analytics);
+    vanilla
+      .post("/v0/analytics/events", {
+        session_id: appcontext.analytics,
+        name: "page_view",
+        data: {
+          page: "checkout",
+        },
+      })
+      .then(() => {});
+  }, [appcontext.analytics]);
 
   // Check for Payment Results
   const success = searchParams.get("success") === "1";
