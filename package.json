@@ -16,8 +16,8 @@
     "prettier:fix": "prettier --write ."
   },
   "engines": {
-    "node": ">=22.11.0",
-    "npm": ">=10.9.0"
+    "node": ">=22.13.1",
+    "npm": ">=10.9.2"
   },
   "dependencies": {
     "@fixhq/react-audio-voice-recorder": "0.0.2",
