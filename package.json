@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@fixhq/react-audio-voice-recorder": "0.0.2",
-    "@hookform/resolvers": "3.10.0",
+    "@hookform/resolvers": "4.1.1",
     "axios": "1.7.9",
     "bootstrap": "5.3.3",
     "bootstrap-icons": "1.11.3",
@@ -35,16 +35,16 @@
     "react-images-uploading": "3.1.7",
     "react-responsive": "10.0.0",
     "react-router-bootstrap": "0.26.3",
-    "react-router-dom": "6.29.0",
+    "react-router-dom": "7.2.0",
     "react-webcam": "7.2.0",
     "zod": "3.24.2"
   },
   "devDependencies": {
-    "@types/react": "18.3.18",
-    "@types/react-dom": "18.3.5",
+    "@types/react": "19.0.10",
+    "@types/react-dom": "19.0.4",
     "@types/react-router-bootstrap": "0.26.6",
-    "@typescript-eslint/eslint-plugin": "8.24.0",
-    "@typescript-eslint/parser": "8.24.0",
+    "@typescript-eslint/eslint-plugin": "8.24.1",
+    "@typescript-eslint/parser": "8.24.1",
     "@vitejs/plugin-react": "4.3.4",
     "eslint": "8.57.1",
     "eslint-plugin-import": "2.31.0",
@@ -54,9 +54,9 @@
     "eslint-plugin-react-refresh": "0.4.19",
     "eslint-plugin-unused-imports": "4.1.4",
     "html-minifier": "4.0.0",
-    "prettier": "3.5.1",
+    "prettier": "3.5.2",
     "typescript": "5.7.3",
-    "vite": "5.4.14",
+    "vite": "6.1.1",
     "vite-plugin-favicons-inject": "2.2.0"
   }
 }
