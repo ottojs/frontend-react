@@ -15,6 +15,7 @@ import PageRecorder from "./pages/PageRecorder";
 import PageCheckout from "./pages/PageCheckout";
 import PageError from "./pages/PageError";
 import Page404 from "./pages/Page404";
+import PageTable from "./pages/PageTable";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <PageLogin />,
+      },
+      {
+        path: "/table",
+        element: <PageTable />,
       },
       {
         path: "/profile",
