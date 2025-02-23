@@ -1,37 +1,11 @@
 // Modules
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { ReactNode, useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { Navigate, useLocation } from "react-router-dom";
 import { getDestination } from "../lib/functions";
 import { sessionService, vanilla } from "./apiClient";
 import { ApiRequest, CurrentSession } from "../types";
-
-interface InterfaceAppContext {
-  // light, dark
-  theme: string;
-  setTheme: (theme: string) => void;
-  logout: () => void;
-  sessionData: CurrentSession | false | null;
-  setSessionData: (arg: CurrentSession | false | null) => void;
-  setRefreshSession: (arg: boolean) => void;
-  analytics: string | null;
-}
-
-export const AppContext = createContext<InterfaceAppContext>({
-  theme: "light",
-  setTheme: () => {},
-  logout: () => {},
-  sessionData: null,
-  setSessionData: () => {},
-  setRefreshSession: () => {},
-  analytics: null,
-});
+import { AppContext } from "./AppContext.lib";
 
 interface Props {
   children: ReactNode;
