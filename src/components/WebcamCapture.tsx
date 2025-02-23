@@ -9,9 +9,9 @@ const getCameraPermission = async () => {
         audio: false,
         video: true,
       });
-    } catch (err) {
+    } catch (err: unknown) {
       // TODO: Handle Somehow
-      //alert(err.message);
+      console.error(err);
     }
   } else {
     alert("The MediaRecorder API is not supported in your browser.");

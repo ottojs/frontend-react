@@ -6,6 +6,7 @@ import { getDestination } from "../lib/functions";
 import { sessionService, vanilla } from "./apiClient";
 import { ApiRequest, CurrentSession } from "../types";
 import { AppContext } from "./AppContext.lib";
+import initiateWebsocket from "../lib/websockets";
 
 interface Props {
   children: ReactNode;
@@ -32,7 +33,7 @@ export function AppContextProvider({ children }: Props) {
   const [refreshSession, setRefreshSession] = useState<boolean>(true);
 
   // Load Session
-  // TODO: Runs Twice. Possible reason is React Strict Mode
+  // TODO: Runs Twice. Reason is React Strict Mode
   useEffect(() => {
     if (!refreshSession) {
       return;
@@ -54,7 +55,8 @@ export function AppContextProvider({ children }: Props) {
       .catch(() => {
         setSessionData(false);
       });
-    // TODO: This cancels both times... why? Does this unmount?
+
+    // TODO: This cancels both times... why? Does this unmount? React Strict Mode?
     //return cancel;
   }, [refreshSession]);
 
@@ -83,6 +85,11 @@ export function AppContextProvider({ children }: Props) {
         localStorage.setItem(analyticsKey, res.data.data.session.id);
       });
     }
+  }, []);
+
+  // WebSockets
+  useEffect(() => {
+    return initiateWebsocket(1000);
   }, []);
 
   // Loading
