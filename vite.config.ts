@@ -9,7 +9,7 @@ export default defineConfig({
     react(),
     // Based on this package (use to view options)
     // https://github.com/itgalaxy/favicons
-    vitePluginFaviconsInject("./src/assets/vite.svg", {
+    vitePluginFaviconsInject("./src/assets/favicon.svg", {
       appName: "ExampleName",
       appShortName: "ExampleShort",
       appDescription: "ExampleDescription",
