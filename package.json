@@ -20,7 +20,7 @@
     "npm": ">=10.9.2"
   },
   "dependencies": {
-    "@fixhq/react-audio-voice-recorder": "0.0.2",
+    "@fixhq/react-audio-voice-recorder": "2.2.99",
     "@hookform/resolvers": "4.1.1",
     "axios": "1.7.9",
     "bootstrap": "5.3.3",
