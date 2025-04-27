@@ -20,15 +20,12 @@ const schema = z.object({
     .min(1, { message: "last name cannot be blank" })
     .max(40, { message: "last name must be fewer than 40 characters" }),
   color: z.string().min(1).max(7),
-  picture: z
-    .union([z.string().trim().min(4).max(80), z.literal(null)])
-    .default(null),
+  picture: z.string().trim().min(4).max(80).nullable(),
 });
 type FormData = z.infer<typeof schema>;
 
 const PageProfile = () => {
   const appcontext = useAppContext();
-
   const {
     register,
     handleSubmit,
