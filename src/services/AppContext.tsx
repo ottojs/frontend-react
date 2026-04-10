@@ -38,7 +38,6 @@ export function AppContextProvider({ children }: Props) {
     if (!refreshSession) {
       return;
     }
-    setRefreshSession(false);
     console.log("SESSION REFRESH");
     // TODO: Add cancel function
     const { request } = sessionService.read<ApiRequest>({
@@ -51,9 +50,11 @@ export function AppContextProvider({ children }: Props) {
           res.data.data.picture = null;
         }
         setSessionData(res.data.data);
+        setRefreshSession(false);
       })
       .catch(() => {
         setSessionData(false);
+        setRefreshSession(false);
       });
 
     // TODO: This cancels both times... why? Does this unmount? React Strict Mode?
@@ -72,20 +73,21 @@ export function AppContextProvider({ children }: Props) {
   };
 
   // Analytics Session
-  const [analytics, setAnalytics] = useState<string | null>(null);
+  const analyticsKey = "analytics_session_id";
+  const [analytics, setAnalytics] = useState<string | null>(
+    localStorage.getItem(analyticsKey),
+  );
   useEffect(() => {
-    const analyticsKey = "analytics_session_id";
-    const analyticsExists = localStorage.getItem(analyticsKey);
-    console.log("ANALYTICS EXISTS", analyticsExists);
-    if (analyticsExists) {
-      setAnalytics(analyticsExists);
-    } else {
-      vanilla.post("/v0/analytics/sessions").then((res) => {
-        setAnalytics(res.data.data.session.id);
-        localStorage.setItem(analyticsKey, res.data.data.session.id);
-      });
+    if (analytics) {
+      console.log("ANALYTICS EXISTS", analytics);
+      return;
     }
-  }, []);
+    vanilla.post("/v0/analytics/sessions").then((res) => {
+      const sessionId = res.data.data.session.id;
+      setAnalytics(sessionId);
+      localStorage.setItem(analyticsKey, sessionId);
+    });
+  }, [analytics]);
 
   // WebSockets
   useEffect(() => {

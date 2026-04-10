@@ -15,13 +15,13 @@ const schema = z.object({
     .string()
     .trim()
     .email()
-    .min(5, { message: "email must be at least 5 characters" })
-    .max(80, { message: "email must be fewer than 80 characters" }),
+    .min(5, { error: "email must be at least 5 characters" })
+    .max(80, { error: "email must be fewer than 80 characters" }),
   password: z
     .string()
     // No Trim
-    .min(8, { message: "password must be at least 8 characters" })
-    .max(80, { message: "password must be fewer than 80 characters" }),
+    .min(8, { error: "password must be at least 8 characters" })
+    .max(80, { error: "password must be fewer than 80 characters" }),
 });
 type FormData = z.infer<typeof schema>;
 

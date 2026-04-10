@@ -1,10 +1,8 @@
 // Modules
-import { useEffect, useState } from "react";
 import { useAudioRecorder } from "@fixhq/react-audio-voice-recorder";
 import Button from "react-bootstrap/Button";
 
 const PageRecorder = () => {
-  const [audioBlob, setAudioBlob] = useState<Blob>();
   const {
     startRecording,
     stopRecording,
@@ -15,13 +13,6 @@ const PageRecorder = () => {
     //recordingTime,
     //mediaRecorder,
   } = useAudioRecorder();
-
-  useEffect(() => {
-    if (!recordingBlob) return;
-    console.log("RECBLOB");
-    setAudioBlob(recordingBlob);
-    // recordingBlob will be present at this point after 'stopRecording' has been called
-  }, [recordingBlob]);
 
   return (
     <div className="container">
@@ -55,9 +46,9 @@ const PageRecorder = () => {
             )}
           </div>
           <div className="m-3">
-            {!isRecording && audioBlob && (
+            {!isRecording && recordingBlob && (
               <audio
-                src={URL.createObjectURL(audioBlob)}
+                src={URL.createObjectURL(recordingBlob)}
                 controls={true}
               ></audio>
             )}

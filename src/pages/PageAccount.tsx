@@ -13,8 +13,8 @@ const schema = z.object({
   name: z
     .string()
     .trim()
-    .min(2, { message: "name must be at least 2 characters" })
-    .max(40, { message: "name must be fewer than 40 characters" }),
+    .min(2, { error: "name must be at least 2 characters" })
+    .max(40, { error: "name must be fewer than 40 characters" }),
 });
 type FormData = z.infer<typeof schema>;
 
@@ -47,10 +47,11 @@ const PageAccount = () => {
       setError("There was an issue loading account data");
       return;
     }
-    appcontext.sessionData.accounts[0].name = data.name;
-    const { request } = accountService.patch(
-      appcontext.sessionData.accounts[0],
-    );
+    const updatedAccount = {
+      ...appcontext.sessionData.accounts[0],
+      name: data.name,
+    };
+    const { request } = accountService.patch(updatedAccount);
     request
       .then((res) => {
         setSuccess("Your account information was saved");

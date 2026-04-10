@@ -1,5 +1,5 @@
 // Modules
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,13 +12,13 @@ const schema = z.object({
   name_first: z
     .string()
     .trim()
-    .min(1, { message: "first name cannot be blank" })
-    .max(40, { message: "first name must be fewer than 40 characters" }),
+    .min(1, { error: "first name cannot be blank" })
+    .max(40, { error: "first name must be fewer than 40 characters" }),
   name_last: z
     .string()
     .trim()
-    .min(1, { message: "last name cannot be blank" })
-    .max(40, { message: "last name must be fewer than 40 characters" }),
+    .min(1, { error: "last name cannot be blank" })
+    .max(40, { error: "last name must be fewer than 40 characters" }),
   color: z.string().min(1).max(7),
   picture: z.string().trim().min(4).max(80).nullable(),
 });
@@ -26,11 +26,23 @@ type FormData = z.infer<typeof schema>;
 
 const PageProfile = () => {
   const appcontext = useAppContext();
+  const [pictureOverride, setPictureOverride] = useState<
+    string | null | undefined
+  >(undefined);
+  const [prevSessionId, setPrevSessionId] = useState(
+    appcontext.sessionData?.session.id,
+  );
+
+  // Reset picture override when session changes (getDerivedStateFromProps pattern)
+  if (appcontext.sessionData?.session.id !== prevSessionId) {
+    setPrevSessionId(appcontext.sessionData?.session.id);
+    setPictureOverride(undefined);
+  }
+
   const {
     register,
     handleSubmit,
     formState: { errors, isValid, isDirty },
-    watch,
     reset,
     setValue,
     //getValues,
@@ -42,10 +54,17 @@ const PageProfile = () => {
     // },
   });
 
+  // Derive formUser from sessionData and pictureOverride
+  const formUser =
+    appcontext.sessionData && pictureOverride !== undefined
+      ? { ...appcontext.sessionData.user, picture: pictureOverride }
+      : appcontext.sessionData?.user || null;
+
   const onImage = (url: string | null) => {
     if (url === "") {
       url = null;
     }
+    setPictureOverride(url);
     setValue("picture", url, {
       shouldValidate: true,
       shouldDirty: true,
@@ -56,7 +75,9 @@ const PageProfile = () => {
   useEffect(() => {
     if (appcontext.sessionData) {
       console.log("RESET FORM WITH SESSION DATA");
-      reset(appcontext.sessionData.user);
+      reset(appcontext.sessionData.user, {
+        keepDefaultValues: false,
+      });
     }
   }, [appcontext.sessionData, reset]);
 
@@ -93,7 +114,13 @@ const PageProfile = () => {
             VAL
           </Button> */}
 
-          <AvatarEditor user={watch()} onImage={onImage} />
+          {formUser && (
+            <AvatarEditor
+              key={appcontext.sessionData?.session.id}
+              user={formUser}
+              onImage={onImage}
+            />
+          )}
           <hr />
           <h2>Information</h2>
           <form onSubmit={handleSubmit(submitProfile)}>

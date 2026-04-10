@@ -8,13 +8,13 @@ const schema = z.object({
   title: z
     .string()
     .trim()
-    .min(1, { message: "title must be at least 2 characters" })
-    .max(50, { message: "title must be fewer than 50 characters" }),
+    .min(1, { error: "title must be at least 2 characters" })
+    .max(50, { error: "title must be fewer than 50 characters" }),
   description: z
     .string()
     .trim()
-    .min(1, { message: "description must be at least 1 character" })
-    .max(90, { message: "description must be fewer than 90 characters" })
+    .min(1, { error: "description must be at least 1 character" })
+    .max(90, { error: "description must be fewer than 90 characters" })
     .optional()
     .or(z.literal("")),
 });
